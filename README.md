@@ -1,6 +1,6 @@
-# Resonance 
+# Resonance
 
-Resonance is a Spotify-inspired music streaming backend built with Spring Boot.
+Resonance is a Spotify-inspired music streaming backend built with Spring Boot. The project focuses on building a scalable REST API while following clean architecture and backend best practices.
 
 ## Tech Stack
 
@@ -12,28 +12,52 @@ Resonance is a Spotify-inspired music streaming backend built with Spring Boot.
 - Maven
 - MapStruct
 
-## Current Features
+## Features Completed
 
-- Spring Boot project setup
-- MySQL configuration
+- ✅ CRUD APIs
+- ✅ Request & Response DTOs
+- ✅ Validation
+- ✅ Global Exception Handling
+- ✅ JPA Relationships
+    - One-to-One
+    - One-to-Many
+    - Many-to-One
+    - Many-to-Many
+- ✅ MapStruct for DTO mapping
 
 ## Planned Features
 
-- CRUD APIs
-- DTOs
-- Validation
-- Global Exception Handling
-- JPA Relationships
-- Spring Security + JWT
+- Spring Security + JWT Authentication
 - File Upload & Download
 - Email Integration
 - Pagination & Sorting
-- Dynamic Searching
+- Dynamic Searching (Specifications)
 - Caching
-- Testing
+- Unit & Integration Testing
 - Docker
 - Deployment
+
+## Project Structure
+
+```text
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+Database
+```
+
+The project follows a layered architecture where:
+
+- Controllers handle HTTP requests and responses.
+- Services contain business logic.
+- Repositories interact with the database.
+- MapStruct is used for entity-DTO conversion.
 
 ## Project Status
 
 🚧 Under Development
+
+The core CRUD functionality has been completed. Upcoming work includes security, file handling, advanced querying, testing, and deployment.
