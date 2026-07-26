@@ -5,6 +5,7 @@ import com.resonance.resonance.dto.response.AlbumResponse;
 import com.resonance.resonance.dto.update.AlbumUpdate;
 import com.resonance.resonance.entity.Album;
 import com.resonance.resonance.entity.Artist;
+import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.AlbumMapper;
 import com.resonance.resonance.repository.AlbumRepository;
 import com.resonance.resonance.repository.ArtistRepository;
@@ -23,13 +24,13 @@ public class AlbumService {
 
     private Album getAlbum(Long id){
 
-        return albumRepository.findById(id).orElseThrow();
+        return albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album with id "+id+" not found."));
 
     }
 
     private Artist getArtist(Long id){
 
-        return artistRepository.findById(id).orElseThrow();
+        return artistRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artist with id "+id+" not found."));
 
     }
 

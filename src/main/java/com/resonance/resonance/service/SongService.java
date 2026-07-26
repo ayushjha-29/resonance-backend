@@ -7,6 +7,7 @@ import com.resonance.resonance.entity.Album;
 import com.resonance.resonance.entity.Artist;
 import com.resonance.resonance.entity.Genre;
 import com.resonance.resonance.entity.Song;
+import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.SongMapper;
 import com.resonance.resonance.repository.AlbumRepository;
 import com.resonance.resonance.repository.ArtistRepository;
@@ -31,25 +32,25 @@ public class SongService {
 
     private Song getSong(Long id){
 
-        return songRepository.findById(id).orElseThrow();
+        return songRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song with id "+id+" not found."));
 
     }
 
     private Artist getArtist(Long id){
 
-        return artistRepository.findById(id).orElseThrow();
+        return artistRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artist with id "+id+" not found."));
 
     }
 
     private Album getAlbum(Long id){
 
-        return albumRepository.findById(id).orElseThrow();
+        return albumRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Album with id "+id+" not found."));
 
     }
 
     private Genre getGenre(Long id){
 
-        return genreRepository.findById(id).orElseThrow();
+        return genreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Genre with id "+id+" not found."));
 
     }
 

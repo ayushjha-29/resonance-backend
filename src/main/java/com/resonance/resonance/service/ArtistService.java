@@ -4,6 +4,7 @@ import com.resonance.resonance.dto.request.ArtistRequest;
 import com.resonance.resonance.dto.response.ArtistResponse;
 import com.resonance.resonance.dto.update.ArtistUpdate;
 import com.resonance.resonance.entity.Artist;
+import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.ArtistMapper;
 import com.resonance.resonance.repository.ArtistRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class ArtistService {
 
     private Artist getArtist(Long id){
 
-        return artistRepository.findById(id).orElseThrow();
+        return artistRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Artist with id "+id+" not found."));
 
     }
 

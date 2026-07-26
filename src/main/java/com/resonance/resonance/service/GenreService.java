@@ -4,6 +4,7 @@ import com.resonance.resonance.dto.request.GenreRequest;
 import com.resonance.resonance.dto.response.GenreResponse;
 import com.resonance.resonance.dto.update.GenreUpdate;
 import com.resonance.resonance.entity.Genre;
+import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.GenreMapper;
 import com.resonance.resonance.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class GenreService {
 
     private Genre getGenre(Long id){
 
-        return genreRepository.findById(id).orElseThrow();
+        return genreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Genre with id "+id+" not found."));
 
     }
 
