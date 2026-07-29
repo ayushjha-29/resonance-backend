@@ -33,7 +33,6 @@ Resonance is a Spotify-inspired music streaming backend built with Spring Boot. 
 
 ## Planned Features
 
-- File Upload & Download
 - Email Integration
 - Pagination & Sorting
 - Dynamic Searching (Specifications)
@@ -80,4 +79,4 @@ The project follows a layered architecture where:
 
 🚧 Under Development
 
-Core backend functionality and authentication have been completed. Upcoming work includes file handling, email integration, pagination, searching, caching, testing, Docker, and deployment.
+Core backend functionality and authentication have been completed. Upcoming work includes email integration, pagination, searching, caching, testing, Docker, and deployment.
