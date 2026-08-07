@@ -22,9 +22,21 @@ public class AppUser {
     @Column(unique = true)
     private String username;
 
+    @Column(unique = true)
+    private String email;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private Boolean enabled = false;
+
+    @OneToOne(
+            mappedBy = "appUser",
+            cascade = CascadeType.ALL
+    )
+    private Token token;
+
 
 }

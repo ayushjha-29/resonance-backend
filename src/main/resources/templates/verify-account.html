@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Your Email</title>
+    <style>
+        body{
+            margin:0;
+            padding:40px;
+            background:#f4f7fb;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+        .container{
+            max-width:600px;
+            margin:auto;
+            background:white;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 5px 15px rgba(0,0,0,.08);
+        }
+        .header{
+            background:#2563eb;
+            color:white;
+            text-align:center;
+            padding:30px;
+        }
+        .content{
+            padding:40px;
+            color:#333;
+            line-height:1.7;
+        }
+        .button{
+            display:inline-block;
+            padding:14px 28px;
+            background:#2563eb;
+            color:white!important;
+            text-decoration:none;
+            border-radius:8px;
+            font-weight:bold;
+        }
+        .footer{
+            text-align:center;
+            color:#777;
+            padding:25px;
+            font-size:13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Resonance</h1>
+        <p>Verify Your Email Address</p>
+    </div>
+
+    <div class="content">
+
+        <h2>Hello <span th:text="${username}"></span>,</h2>
+
+        <p>
+            Thank you for creating your Resonance account.
+            Before you can start listening to music, please verify your email address.
+        </p>
+
+        <p style="text-align:center;margin:40px 0;">
+            <a th:href="${verificationLink}" class="button">
+                Verify Account
+            </a>
+        </p>
+
+        <p>
+            If you didn't create this account, you can safely ignore this email.
+        </p>
+
+        <p>
+            This verification link will expire shortly for your security.
+        </p>
+
+    </div>
+
+    <div class="footer">
+
+        Resonance • Secure Music Streaming Platform
+
+    </div>
+
+</div>
+
+</body>
+</html>

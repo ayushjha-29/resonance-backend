@@ -15,16 +15,16 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ArtistMapper {
 
-    public Artist toEntity(ArtistRequest request);
+    Artist toEntity(ArtistRequest request);
 
     @Mapping(source = "albums" , target = "albumTitles")
     @Mapping(source = "songs" , target = "songTitles")
-    public ArtistResponse toDTO(Artist artist);
+    ArtistResponse toDTO(Artist artist);
 
-    public List<ArtistResponse> toDTOs(List<Artist> artists);
+    List<ArtistResponse> toDTOs(List<Artist> artists);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public void updateArtist(ArtistUpdate update , @MappingTarget Artist artist);
+    void updateArtist(ArtistUpdate update , @MappingTarget Artist artist);
 
     default List<String> mapSongs(List<Song> songs){
 

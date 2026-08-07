@@ -1,82 +1,148 @@
 # Resonance
 
-Resonance is a Spotify-inspired music streaming backend built with Spring Boot. The project focuses on building a scalable REST API while following clean architecture and backend best practices.
+Resonance is a Spotify-inspired music streaming backend built with Spring Boot. The project focuses on building a secure, scalable REST API while following clean architecture and modern backend development practices.
+
+---
 
 ## Tech Stack
 
-- Java
+- Java 21
 - Spring Boot
 - Spring Security
 - JWT (JSON Web Tokens)
 - Spring Data JPA
 - Hibernate
 - MySQL
-- Maven
 - MapStruct
+- Thymeleaf
+- Java Mail Sender
+- Maven
+- Lombok
 
-## Features Completed
+---
+
+## Features
+
+### Authentication & Authorization
+
+- ✅ User Registration
+- ✅ Artist Registration
+- ✅ Login using Username or Email
+- ✅ JWT Authentication
+- ✅ Role-Based Authorization
+- ✅ BCrypt Password Encryption
+- ✅ Stateless Authentication
+
+### Email Integration
+
+- ✅ Email Verification
+- ✅ Welcome Email
+- ✅ Forgot Password
+- ✅ Password Reset
+- ✅ Asynchronous Email Sending
+- ✅ HTML Email Templates using Thymeleaf
+
+### Backend Features
 
 - ✅ CRUD APIs
 - ✅ Request & Response DTOs
 - ✅ Validation
 - ✅ Global Exception Handling
-- ✅ JPA Relationships
-  - One-to-One
-  - One-to-Many
-  - Many-to-One
-  - Many-to-Many
-- ✅ MapStruct for DTO mapping
-- ✅ Spring Security
-- ✅ JWT Authentication
-- ✅ Role-based Authorization
-- ✅ Password Encryption (BCrypt)
+- ✅ MapStruct DTO Mapping
 
-## Planned Features
+### Database Design
 
-- Email Integration
-- Pagination & Sorting
-- Dynamic Searching (Specifications)
-- Caching
-- Unit & Integration Testing
-- Docker
-- Deployment
+- ✅ One-to-One
+- ✅ One-to-Many
+- ✅ Many-to-One
+- ✅ Many-to-Many
 
-## Security Features
+---
+
+## Security
 
 - JWT-based Authentication
 - Stateless Session Management
-- BCrypt Password Encoding
 - Custom UserDetailsService
 - JWT Authentication Filter
-- Public Authentication Endpoints
-- Protected API Endpoints
-- Role-based Access Control
-  - USER
-  - ARTIST
-  - ADMIN
+- BCrypt Password Encoding
+- Email Verification before Login
+- Login using Username or Email
+- Role-Based Access Control
+
+### Roles
+
+- USER
+- ARTIST
+- ADMIN
+
+---
 
 ## Project Structure
 
 ```text
 Controller
-   ↓
+    │
+    ▼
 Service
-   ↓
+    │
+    ▼
 Repository
-   ↓
-Database
+    │
+    ▼
+MySQL Database
 ```
 
 The project follows a layered architecture where:
 
-- Controllers handle HTTP requests and responses.
+- Controllers handle incoming HTTP requests.
 - Services contain business logic.
 - Repositories interact with the database.
-- MapStruct handles entity-DTO conversion.
-- Spring Security protects endpoints using JWT authentication.
+- MapStruct performs Entity ↔ DTO conversion.
+- Spring Security secures protected endpoints.
 
-## Project Status
+---
 
-🚧 Under Development
+## Upcoming Features
 
-Core backend functionality and authentication have been completed. Upcoming work includes email integration, pagination, searching, caching, testing, Docker, and deployment.
+- Pagination & Sorting
+- Dynamic Searching (Specifications)
+- Caching
+- Unit Testing
+- Integration Testing
+- Docker
+- Deployment
+
+---
+
+## Database
+
+The project includes SQL scripts for development.
+
+```text
+database/
+├── truncate.sql
+└── seed.sql
+```
+
+- `truncate.sql` clears all existing data.
+- `seed.sql` populates the database with sample users, artists, albums, genres, and songs.
+
+---
+
+## Current Status
+
+🚧 **Actively Under Development**
+
+Completed:
+
+- Authentication & Authorization
+- Email Integration
+- Security
+- CRUD Operations
+- DTO Mapping
+- Validation
+- Exception Handling
+- Database Relationships
+
+The remaining work focuses on improving scalability, testing, deployment, and production readiness.

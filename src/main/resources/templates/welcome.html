@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Resonance</title>
+
+    <style>
+
+        body{
+            margin:0;
+            padding:40px;
+            background:#f4f7fb;
+            font-family:Arial,Helvetica,sans-serif;
+        }
+
+        .container{
+            max-width:600px;
+            margin:auto;
+            background:white;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 5px 15px rgba(0,0,0,.08);
+        }
+
+        .header{
+            background:#2563eb;
+            color:white;
+            text-align:center;
+            padding:30px;
+        }
+
+        .content{
+            padding:40px;
+            color:#333;
+            line-height:1.8;
+        }
+
+        .button{
+            display:inline-block;
+            background:#2563eb;
+            color:white!important;
+            text-decoration:none;
+            padding:14px 28px;
+            border-radius:8px;
+            font-weight:bold;
+        }
+
+        .footer{
+            text-align:center;
+            color:#777;
+            padding:25px;
+            font-size:13px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🎵 Welcome to Resonance!</h1>
+
+    </div>
+
+    <div class="content">
+
+        <h2>Hello <span th:text="${username}"></span>,</h2>
+
+        <p>
+
+            Your account has been successfully verified.
+
+            Welcome to the Resonance community!
+
+        </p>
+
+        <p>
+
+            You can now discover artists, explore albums and enjoy your favorite music.
+
+        </p>
+
+        <p style="text-align:center;margin:40px 0;">
+
+            <a th:href="${loginLink}" class="button">
+
+                Start Listening
+
+            </a>
+
+        </p>
+
+        <p>
+
+            We're excited to have you with us.
+
+            Happy Listening!
+
+        </p>
+
+    </div>
+
+    <div class="footer">
+
+        Thank you for choosing Resonance.
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

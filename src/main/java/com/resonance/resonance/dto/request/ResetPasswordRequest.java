@@ -4,12 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
-
-    @NotBlank(message = "This field cannot be blank.")
-    private String identifier;
+public class ResetPasswordRequest {
 
     @NotBlank(message = "Password cannot be blank.")
-    private String password;
+    private String newPassword;
 
 }

@@ -13,17 +13,17 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SongMapper {
 
-    public Song toEntity(SongRequest request);
+    Song toEntity(SongRequest request);
 
     @Mapping(source = "album.title" , target = "albumTitle")
     @Mapping(source = "genre.name" , target = "genreName")
     @Mapping(source = "artists" , target = "artistNames")
-    public SongResponse toDTO(Song song);
+    SongResponse toDTO(Song song);
 
-    public List<SongResponse> toDTOs(List<Song> songs);
+    List<SongResponse> toDTOs(List<Song> songs);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public void updateSong(SongUpdate update , @MappingTarget Song song);
+    void updateSong(SongUpdate update , @MappingTarget Song song);
 
     default List<String> mapArtists(List<Artist> artists){
 

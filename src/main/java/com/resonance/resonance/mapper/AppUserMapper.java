@@ -8,8 +8,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface AppUserMapper {
 
-    public AppUser toEntity(RegisterRequest request);
+    AppUser toEntity(RegisterRequest request);
 
-    public RegisterResponse toDTO(AppUser appUser);
+    RegisterResponse toDTO(AppUser appUser);
 
 }

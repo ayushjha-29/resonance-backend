@@ -14,15 +14,15 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface GenreMapper {
 
-    public Genre toEntity(GenreRequest request);
+    Genre toEntity(GenreRequest request);
 
     @Mapping(source = "songs" , target = "songTitles")
-    public GenreResponse toDTO(Genre genre);
+    GenreResponse toDTO(Genre genre);
 
-    public List<GenreResponse> toDTOs(List<Genre> genres);
+    List<GenreResponse> toDTOs(List<Genre> genres);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public void updateGenre(GenreUpdate update , @MappingTarget Genre genre);
+    void updateGenre(GenreUpdate update , @MappingTarget Genre genre);
 
     default List<String> mapSongs(List<Song> songs){
 

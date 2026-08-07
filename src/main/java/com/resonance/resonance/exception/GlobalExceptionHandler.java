@@ -2,6 +2,7 @@ package com.resonance.resonance.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,8 +36,8 @@ public class GlobalExceptionHandler {
 
     }
 
-    @ExceptionHandler(DuplicateUserException.class)
-    public ResponseEntity<String> handleDuplicateUserException(DuplicateUserException ex){
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<String> handleDuplicateUserException(DuplicateResourceException ex){
 
         return ResponseEntity.badRequest().body(ex.getMessage());
 
@@ -44,6 +45,27 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex){
+
+        return ResponseEntity.badRequest().body(ex.getMessage());
+
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<String> handleDisabledException(DisabledException ex){
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Verify your account before logging in.");
+
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<String> handleTokenExpiredException(TokenExpiredException ex){
+
+        return ResponseEntity.badRequest().body(ex.getMessage());
+
+    }
+
+    @ExceptionHandler(TokenNotValidException.class)
+    public ResponseEntity<String> handleTokenNotValidException(TokenNotValidException ex){
 
         return ResponseEntity.badRequest().body(ex.getMessage());
 
