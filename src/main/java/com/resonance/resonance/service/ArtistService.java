@@ -1,5 +1,6 @@
 package com.resonance.resonance.service;
 
+import com.resonance.resonance.dto.request.ArtistFilter;
 import com.resonance.resonance.dto.request.ArtistRequest;
 import com.resonance.resonance.dto.response.ArtistResponse;
 import com.resonance.resonance.dto.update.ArtistUpdate;
@@ -7,7 +8,11 @@ import com.resonance.resonance.entity.Artist;
 import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.ArtistMapper;
 import com.resonance.resonance.repository.ArtistRepository;
+import com.resonance.resonance.specification.ArtistSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,11 +41,13 @@ public class ArtistService {
 
     }
 
-    public List<ArtistResponse> getAllArtists(){
+    public Page<ArtistResponse> getAllArtists(ArtistFilter filter , Pageable pageable){
 
-        List<Artist> artists = artistRepository.findAll();
+        Specification<Artist> specification = ArtistSpecification.buildSpecification(filter);
 
-        return artistMapper.toDTOs(artists);
+        Page<Artist> artists = artistRepository.findAll(specification,pageable);
+
+        return artists.map(artist -> artistMapper.toDTO(artist));
 
     }
 

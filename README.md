@@ -30,7 +30,7 @@ Resonance is a Spotify-inspired music streaming backend built with Spring Boot. 
 - ✅ Login using Username or Email
 - ✅ JWT Authentication
 - ✅ Role-Based Authorization
-- ✅ BCrypt Password Encryption
+- ✅ BCrypt Password Encoding
 - ✅ Stateless Authentication
 
 ### Email Integration
@@ -49,6 +49,8 @@ Resonance is a Spotify-inspired music streaming backend built with Spring Boot. 
 - ✅ Validation
 - ✅ Global Exception Handling
 - ✅ MapStruct DTO Mapping
+- ✅ Pagination & Sorting
+- ✅ Dynamic Searching (Specifications)
 
 ### Database Design
 
@@ -105,8 +107,6 @@ The project follows a layered architecture where:
 
 ## Upcoming Features
 
-- Pagination & Sorting
-- Dynamic Searching (Specifications)
 - Caching
 - Unit Testing
 - Integration Testing
@@ -144,5 +144,7 @@ Completed:
 - Validation
 - Exception Handling
 - Database Relationships
+- Pagination & Sorting
+- Dynamic Searching (Specifications)
 
 The remaining work focuses on improving scalability, testing, deployment, and production readiness.

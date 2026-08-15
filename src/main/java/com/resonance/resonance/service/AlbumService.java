@@ -1,5 +1,6 @@
 package com.resonance.resonance.service;
 
+import com.resonance.resonance.dto.request.AlbumFilter;
 import com.resonance.resonance.dto.request.AlbumRequest;
 import com.resonance.resonance.dto.response.AlbumResponse;
 import com.resonance.resonance.dto.update.AlbumUpdate;
@@ -9,7 +10,11 @@ import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.AlbumMapper;
 import com.resonance.resonance.repository.AlbumRepository;
 import com.resonance.resonance.repository.ArtistRepository;
+import com.resonance.resonance.specification.AlbumSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,11 +53,13 @@ public class AlbumService {
 
     }
 
-    public List<AlbumResponse> getAllAlbums(){
+    public Page<AlbumResponse> getAllAlbums(AlbumFilter filter, Pageable pageable){
 
-        List<Album> albums = albumRepository.findAll();
+        Specification<Album> specification = AlbumSpecification.buildSpecification(filter);
 
-        return albumMapper.toDTOs(albums);
+        Page<Album> albums = albumRepository.findAll(specification,pageable);
+
+        return albums.map(album -> albumMapper.toDTO(album));
 
     }
 

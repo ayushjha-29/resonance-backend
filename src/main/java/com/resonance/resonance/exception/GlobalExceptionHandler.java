@@ -2,6 +2,7 @@ package com.resonance.resonance.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -68,6 +69,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleTokenNotValidException(TokenNotValidException ex){
 
         return ResponseEntity.badRequest().body(ex.getMessage());
+
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleBadCredentialException(BadCredentialsException ex){
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username/email or password.");
 
     }
 

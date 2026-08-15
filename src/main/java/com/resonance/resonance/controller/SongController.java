@@ -1,16 +1,19 @@
 package com.resonance.resonance.controller;
 
+import com.resonance.resonance.dto.request.SongFilter;
 import com.resonance.resonance.dto.request.SongRequest;
 import com.resonance.resonance.dto.response.SongResponse;
 import com.resonance.resonance.dto.update.SongUpdate;
 import com.resonance.resonance.service.SongService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,9 +37,9 @@ public class SongController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SongResponse>> getAllSongs(){
+    public ResponseEntity<Page<SongResponse>> getAllSongs(SongFilter filter , @PageableDefault(size = 5 , sort = "id",direction = Sort.Direction.ASC) Pageable pageable){
 
-        return ResponseEntity.ok(songService.getAllSongs());
+        return ResponseEntity.ok(songService.getAllSongs(filter,pageable));
 
     }
 

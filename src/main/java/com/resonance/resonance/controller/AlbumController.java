@@ -1,11 +1,16 @@
 package com.resonance.resonance.controller;
 
+import com.resonance.resonance.dto.request.AlbumFilter;
 import com.resonance.resonance.dto.request.AlbumRequest;
 import com.resonance.resonance.dto.response.AlbumResponse;
 import com.resonance.resonance.dto.update.AlbumUpdate;
 import com.resonance.resonance.service.AlbumService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +39,9 @@ public class AlbumController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AlbumResponse>> getAllAlbums(){
+    public ResponseEntity<Page<AlbumResponse>> getAllAlbums(AlbumFilter filter , @PageableDefault(size = 5 , sort = "id",direction = Sort.Direction.ASC) Pageable pageable){
 
-        return ResponseEntity.ok(albumService.getAllAlbums());
+        return ResponseEntity.ok(albumService.getAllAlbums(filter,pageable));
 
     }
 

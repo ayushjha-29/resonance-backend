@@ -1,5 +1,6 @@
 package com.resonance.resonance.service;
 
+import com.resonance.resonance.dto.request.SongFilter;
 import com.resonance.resonance.dto.request.SongRequest;
 import com.resonance.resonance.dto.response.SongResponse;
 import com.resonance.resonance.dto.update.SongUpdate;
@@ -13,7 +14,11 @@ import com.resonance.resonance.repository.AlbumRepository;
 import com.resonance.resonance.repository.ArtistRepository;
 import com.resonance.resonance.repository.GenreRepository;
 import com.resonance.resonance.repository.SongRepository;
+import com.resonance.resonance.specification.SongSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -91,11 +96,13 @@ public class SongService {
 
     }
 
-    public List<SongResponse> getAllSongs(){
+    public Page<SongResponse> getAllSongs(SongFilter filter , Pageable pageable){
 
-        List<Song> songs = songRepository.findAll();
+        Specification<Song> specification = SongSpecification.buildSpecification(filter);
 
-        return songMapper.toDTOs(songs);
+        Page<Song> songs = songRepository.findAll(specification,pageable);
+
+        return songs.map(song -> songMapper.toDTO(song));
 
     }
 

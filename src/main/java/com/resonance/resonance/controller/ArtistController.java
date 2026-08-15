@@ -1,16 +1,20 @@
 package com.resonance.resonance.controller;
 
+import com.resonance.resonance.dto.request.ArtistFilter;
 import com.resonance.resonance.dto.request.ArtistRequest;
 import com.resonance.resonance.dto.response.ArtistResponse;
 import com.resonance.resonance.dto.update.ArtistUpdate;
 import com.resonance.resonance.service.ArtistService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,9 +38,9 @@ public class ArtistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ArtistResponse>> getAllArtists(){
+    public ResponseEntity<Page<ArtistResponse>> getAllArtists(ArtistFilter filter , @PageableDefault(size = 5 , sort = "id",direction = Sort.Direction.ASC) Pageable pageable){
 
-        return ResponseEntity.ok(artistService.getAllArtists());
+        return ResponseEntity.ok(artistService.getAllArtists(filter,pageable));
 
     }
 

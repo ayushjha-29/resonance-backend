@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Spring Boot configuration containing secrets
+**/application.properties
+**/application-*.properties
