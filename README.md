@@ -1,6 +1,6 @@
 # Resonance
 
-Resonance is a Spotify-inspired music streaming backend built with Spring Boot. The project focuses on building a secure, scalable REST API while following clean architecture and modern backend development practices.
+Resonance is a music catalog REST API built with Spring Boot. The project focuses on building a secure, scalable backend for managing music metadata such as artists, albums, songs, and genres, while following clean architecture and modern backend development practices.
 
 ---
 
