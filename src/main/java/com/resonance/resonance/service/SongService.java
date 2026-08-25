@@ -16,6 +16,10 @@ import com.resonance.resonance.repository.GenreRepository;
 import com.resonance.resonance.repository.SongRepository;
 import com.resonance.resonance.specification.SongSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,6 +37,14 @@ public class SongService {
     private final AlbumRepository albumRepository;
     private final GenreRepository genreRepository;
     private final SongMapper songMapper;
+    private final CacheManager cacheManager;
+
+
+    private void evictCache(String cacheName , Long id){
+
+        cacheManager.getCache(cacheName).evict(id);
+
+    }
 
 
     private Song getSong(Long id){
@@ -92,6 +104,15 @@ public class SongService {
 
         Song savedSong = songRepository.save(song);
 
+        evictCache("genres",request.getGenreId());
+        evictCache("albums",request.getAlbumId());
+
+        for(Long id : request.getArtistIds()){
+
+            evictCache("artists",id);
+
+        }
+
         return songMapper.toDTO(savedSong);
 
     }
@@ -106,6 +127,7 @@ public class SongService {
 
     }
 
+    @Cacheable(value = "songs", key = "#id")
     public SongResponse getSongById(Long id){
 
         Song song = getSong(id);
@@ -114,9 +136,24 @@ public class SongService {
 
     }
 
+    @CachePut(value = "songs",key = "#id")
     public SongResponse updateSongById(Long id , SongUpdate update){
 
         Song song = getSong(id);
+
+        Long oldGenreId = song.getGenre().getId();
+        Long oldAlbumId = song.getAlbum().getId();
+        List<Long> oldArtistIds = new ArrayList<>();
+
+        for(Artist artist : song.getArtists()){
+
+            oldArtistIds.add(artist.getId());
+
+        }
+
+        Long newGenreId = update.getGenreId();
+        Long newAlbumId = update.getAlbumId();
+        List<Long> newArtistIds = update.getArtistIds();
 
         if(update.getTitle() != null && update.getTitle().isBlank()){
 
@@ -160,18 +197,73 @@ public class SongService {
 
         songMapper.updateSong(update , song);
 
+        if(update.getTitle() != null){
+
+            evictCache("genres",oldGenreId);
+            evictCache("albums",oldAlbumId);
+
+            for(Long artistId : oldArtistIds){
+
+                evictCache("artists",artistId);
+
+            }
+
+        }
+
+        if(newGenreId != null){
+
+            evictCache("genres",oldGenreId);
+            evictCache("genres",newGenreId);
+
+        }
+
+        if(newAlbumId != null){
+
+            evictCache("albums",oldAlbumId);
+            evictCache("albums",newAlbumId);
+
+        }
+
+        if(newArtistIds != null){
+
+            for(Long artistId : oldArtistIds){
+
+                evictCache("artists",artistId);
+
+            }
+
+            for(Long artistId : newArtistIds){
+
+                evictCache("artists",artistId);
+
+            }
+
+        }
+
         return songMapper.toDTO(song);
 
     }
 
+
+    @CacheEvict(value = "songs",key = "#id")
     public void deleteSongById(Long id){
 
         Song song = getSong(id);
+
+        evictCache("genres",song.getGenre().getId());
+        evictCache("albums",song.getAlbum().getId());
+
+        for(Artist artist : song.getArtists()){
+
+            evictCache("artists",artist.getId());
+
+        }
 
         songRepository.delete(song);
 
     }
 
+    @CachePut(value = "songs",key = "#id")
     public SongResponse playSong(Long id){
 
         Song song = getSong(id);

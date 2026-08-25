@@ -4,18 +4,23 @@ import com.resonance.resonance.dto.request.ArtistFilter;
 import com.resonance.resonance.dto.request.ArtistRequest;
 import com.resonance.resonance.dto.response.ArtistResponse;
 import com.resonance.resonance.dto.update.ArtistUpdate;
+import com.resonance.resonance.entity.Album;
 import com.resonance.resonance.entity.Artist;
+import com.resonance.resonance.entity.Song;
 import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.ArtistMapper;
 import com.resonance.resonance.repository.ArtistRepository;
 import com.resonance.resonance.specification.ArtistSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +28,13 @@ public class ArtistService {
 
     private final ArtistRepository artistRepository;
     private final ArtistMapper artistMapper;
+    private final CacheManager cacheManager;
+
+    private void evictCache(String cacheName , Long id){
+
+        cacheManager.getCache(cacheName).evict(id);
+
+    }
 
     private Artist getArtist(Long id){
 
@@ -51,6 +63,7 @@ public class ArtistService {
 
     }
 
+    @Cacheable(value = "artists", key = "#id")
     public ArtistResponse getArtistById(Long id){
 
         Artist artist = getArtist(id);
@@ -59,6 +72,7 @@ public class ArtistService {
 
     }
 
+    @CachePut(value = "artists",key = "#id")
     public ArtistResponse updateArtistById(Long id , ArtistUpdate update){
 
         Artist artist = getArtist(id);
@@ -77,14 +91,38 @@ public class ArtistService {
 
         artistMapper.updateArtist(update , artist);
 
+        for(Album album : artist.getAlbums()){
+
+            evictCache("albums",album.getId());
+
+        }
+
+        for(Song song : artist.getSongs()){
+
+            evictCache("songs",song.getId());
+
+        }
+
         return artistMapper.toDTO(artist);
 
     }
 
-
+    @CacheEvict(value = "artists",key = "#id")
     public void deleteArtistById(Long id){
 
         Artist artist = getArtist(id);
+
+        for(Album album : artist.getAlbums()){
+
+            evictCache("albums",album.getId());
+
+        }
+
+        for(Song song : artist.getSongs()){
+
+            evictCache("songs",song.getId());
+
+        }
 
         artistRepository.delete(artist);
 

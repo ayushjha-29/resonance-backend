@@ -6,18 +6,21 @@ import com.resonance.resonance.dto.response.AlbumResponse;
 import com.resonance.resonance.dto.update.AlbumUpdate;
 import com.resonance.resonance.entity.Album;
 import com.resonance.resonance.entity.Artist;
+import com.resonance.resonance.entity.Song;
 import com.resonance.resonance.exception.ResourceNotFoundException;
 import com.resonance.resonance.mapper.AlbumMapper;
 import com.resonance.resonance.repository.AlbumRepository;
 import com.resonance.resonance.repository.ArtistRepository;
 import com.resonance.resonance.specification.AlbumSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,13 @@ public class AlbumService {
     private final AlbumRepository albumRepository;
     private final AlbumMapper albumMapper;
     private final ArtistRepository artistRepository;
+    private final CacheManager cacheManager;
+
+    private void evictCache(String cacheName , Long id){
+
+        cacheManager.getCache(cacheName).evict(id);
+
+    }
 
     private Album getAlbum(Long id){
 
@@ -49,6 +59,8 @@ public class AlbumService {
 
         Album savedAlbum = albumRepository.save(album);
 
+        evictCache("artists",album.getArtist().getId());
+
         return albumMapper.toDTO(savedAlbum);
 
     }
@@ -63,6 +75,7 @@ public class AlbumService {
 
     }
 
+    @Cacheable(value = "albums", key = "#id")
     public AlbumResponse getAlbumById(Long id){
 
         Album album = getAlbum(id);
@@ -71,9 +84,13 @@ public class AlbumService {
 
     }
 
+    @CachePut(value = "albums",key = "#id")
     public AlbumResponse updateAlbumById(Long id , AlbumUpdate update){
 
         Album album = getAlbum(id);
+
+        Long oldArtistId = album.getArtist().getId();
+        Long newArtistId = update.getArtistId();
 
 
         if(update.getTitle() !=null && update.getTitle().isBlank()){
@@ -91,13 +108,41 @@ public class AlbumService {
 
         albumMapper.updateAlbum(update , album);
 
+        if(update.getTitle() != null){
+
+            for(Song song : album.getSongs()){
+
+                evictCache("songs",song.getId());
+
+            }
+
+            evictCache("artists",album.getArtist().getId());
+
+        }
+
+        if(newArtistId != null){
+
+            evictCache("artists",oldArtistId);
+            evictCache("artists",newArtistId);
+
+        }
+
         return albumMapper.toDTO(album);
 
     }
 
+    @CacheEvict(value = "albums",key = "#id")
     public void deleteAlbumById(Long id){
 
         Album album = getAlbum(id);
+
+        for(Song song : album.getSongs()){
+
+            evictCache("songs",song.getId());
+
+        }
+
+        evictCache("artists",album.getArtist().getId());
 
         albumRepository.delete(album);
 

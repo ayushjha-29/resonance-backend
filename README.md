@@ -51,6 +51,7 @@ Resonance is a music catalog REST API built with Spring Boot. The project focuse
 - ✅ MapStruct DTO Mapping
 - ✅ Pagination & Sorting
 - ✅ Dynamic Searching (Specifications)
+- ✅ Caching
 
 ### Database Design
 
@@ -107,7 +108,6 @@ The project follows a layered architecture where:
 
 ## Upcoming Features
 
-- Caching
 - Unit Testing
 - Integration Testing
 - Docker
@@ -146,5 +146,6 @@ Completed:
 - Database Relationships
 - Pagination & Sorting
 - Dynamic Searching (Specifications)
+- Caching
 
 The remaining work focuses on improving scalability, testing, deployment, and production readiness.
