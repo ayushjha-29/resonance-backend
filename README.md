@@ -147,5 +147,6 @@ Completed:
 - Pagination & Sorting
 - Dynamic Searching (Specifications)
 - Caching
+- Open API / Swagger UI
 
 The remaining work focuses on improving scalability, testing, deployment, and production readiness.

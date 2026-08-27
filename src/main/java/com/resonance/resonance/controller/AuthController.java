@@ -7,6 +7,7 @@ import com.resonance.resonance.dto.request.ResetPasswordRequest;
 import com.resonance.resonance.dto.response.LoginResponse;
 import com.resonance.resonance.dto.response.RegisterResponse;
 import com.resonance.resonance.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication" , description = "Authentication and account management APIs")
 public class AuthController {
 
     private final AuthenticationService authenticationService;

@@ -5,6 +5,8 @@ import com.resonance.resonance.dto.request.AlbumRequest;
 import com.resonance.resonance.dto.response.AlbumResponse;
 import com.resonance.resonance.dto.update.AlbumUpdate;
 import com.resonance.resonance.service.AlbumService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/albums")
+@Tag(name = "Albums",description = "Album management APIs")
+@SecurityRequirement(name = "bearerAuth")
 public class AlbumController {
 
     private final AlbumService albumService;

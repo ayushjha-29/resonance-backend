@@ -5,6 +5,8 @@ import com.resonance.resonance.dto.request.SongRequest;
 import com.resonance.resonance.dto.response.SongResponse;
 import com.resonance.resonance.dto.update.SongUpdate;
 import com.resonance.resonance.service.SongService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/songs")
+@Tag(name = "Songs" , description = "Song management APIs")
+@SecurityRequirement(name = "bearerAuth")
 public class SongController {
 
     private final SongService songService;
