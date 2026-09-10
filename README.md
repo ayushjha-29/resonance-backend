@@ -106,10 +106,17 @@ The project follows a layered architecture where:
 
 ---
 
+## Testing
+
+- ✅ Unit Testing
+- ✅ Spring Boot Application Context Test
+    - Application Context Loading
+    - Spring Bean Initialization & Dependency Injection
+    - JPA & Database Configuration Validation
+    - Security Configuration Loading
+
 ## Upcoming Features
 
-- Unit Testing
-- Integration Testing
 - Docker
 - Deployment
 
@@ -148,5 +155,7 @@ Completed:
 - Dynamic Searching (Specifications)
 - Caching
 - Open API / Swagger UI
+- Unit Testing
+- Spring Boot Application Context Test
 
-The remaining work focuses on improving scalability, testing, deployment, and production readiness.
+The remaining work focuses on improving scalability, deployment, and production readiness.
