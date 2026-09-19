@@ -18,6 +18,7 @@ Resonance is a music catalog REST API built with Spring Boot. The project focuse
 - Java Mail Sender
 - Maven
 - Lombok
+- Docker
 
 ---
 
@@ -115,9 +116,24 @@ The project follows a layered architecture where:
     - JPA & Database Configuration Validation
     - Security Configuration Loading
 
+---
+
+## Docker
+
+The application is containerized using Docker and Docker Compose.
+
+The Docker setup consists of two services:
+
+- **Resonance** — Spring Boot application
+- **MySQL** — MySQL 8.4 database
+
+The services communicate through the Docker Compose network, with Resonance connecting to MySQL using the service name:
+```text
+jdbc:mysql://mysql:3306/resonance
+```
+
 ## Upcoming Features
 
-- Docker
 - Deployment
 
 ---
@@ -154,8 +170,9 @@ Completed:
 - Pagination & Sorting
 - Dynamic Searching (Specifications)
 - Caching
-- Open API / Swagger UI
+- OpenAPI / Swagger UI
 - Unit Testing
 - Spring Boot Application Context Test
+- Docker
 
 The remaining work focuses on improving scalability, deployment, and production readiness.

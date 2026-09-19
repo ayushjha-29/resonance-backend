@@ -35,3 +35,4 @@ build/
 # Spring Boot configuration containing secrets
 **/application.properties
 **/application-*.properties
+.env
