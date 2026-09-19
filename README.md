@@ -19,6 +19,7 @@ Resonance is a music catalog REST API built with Spring Boot. The project focuse
 - Maven
 - Lombok
 - Docker
+- Docker Compose
 
 ---
 
@@ -111,10 +112,10 @@ The project follows a layered architecture where:
 
 - ✅ Unit Testing
 - ✅ Spring Boot Application Context Test
-    - Application Context Loading
-    - Spring Bean Initialization & Dependency Injection
-    - JPA & Database Configuration Validation
-    - Security Configuration Loading
+  - Application Context Loading
+  - Spring Bean Initialization & Dependency Injection
+  - JPA & Database Configuration Validation
+  - Security Configuration Loading
 
 ---
 
@@ -128,13 +129,69 @@ The Docker setup consists of two services:
 - **MySQL** — MySQL 8.4 database
 
 The services communicate through the Docker Compose network, with Resonance connecting to MySQL using the service name:
+
 ```text
 jdbc:mysql://mysql:3306/resonance
 ```
 
-## Upcoming Features
+### Running with Docker
 
-- Deployment
+Make sure Docker Desktop is installed and running.
+
+Clone the repository and navigate to the project directory:
+
+```bash
+git clone https://github.com/ayushjha-29/resonance-backend.git
+cd resonance-backend
+```
+
+Start the application:
+
+```bash
+docker compose up --build
+```
+
+The `--build` option builds the Resonance Docker image before starting the containers.
+
+After the image has been built once, the application can normally be started with:
+
+```bash
+docker compose up
+```
+
+The application will be available at:
+
+```text
+http://localhost:8080
+```
+
+To run the containers in the background:
+
+```bash
+docker compose up -d
+```
+
+To stop the containers:
+
+```bash
+docker compose stop
+```
+
+To start previously stopped containers:
+
+```bash
+docker compose start
+```
+
+To stop and remove the containers:
+
+```bash
+docker compose down
+```
+
+The MySQL data is stored in a Docker named volume and is preserved when using `docker compose down`.
+
+> **Warning:** `docker compose down -v` removes the Docker volume and permanently deletes the persisted MySQL data.
 
 ---
 
@@ -153,11 +210,11 @@ database/
 
 ---
 
-## Current Status
+## Project Status
 
-🚧 **Actively Under Development**
+✅ **Complete**
 
-Completed:
+Resonance has completed its planned backend development and currently includes:
 
 - Authentication & Authorization
 - Email Integration
@@ -173,6 +230,6 @@ Completed:
 - OpenAPI / Swagger UI
 - Unit Testing
 - Spring Boot Application Context Test
-- Docker
+- Docker & Docker Compose
 
-The remaining work focuses on improving scalability, deployment, and production readiness.
+The project was built as a production-style Spring Boot backend to practice modern backend development, security, database design, testing, and containerization.
