@@ -20,6 +20,8 @@ services:
 
 
   resonance:
+    build:
+      context: .
     image: resonance:latest
     environment:
       DB_URL: jdbc:mysql://mysql:3306/resonance

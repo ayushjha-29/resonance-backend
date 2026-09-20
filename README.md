@@ -145,19 +145,67 @@ git clone https://github.com/ayushjha-29/resonance-backend.git
 cd resonance-backend
 ```
 
-Start the application:
+### Environment Variables
+
+Create a `.env` file in the project root based on `.env.example` and provide your own values.
+
+The `.env` file contains sensitive credentials and should not be committed to Git. 
+
+### Start the Resonance Application
 
 ```bash
 docker compose up --build
 ```
 
-The `--build` option builds the Resonance Docker image before starting the containers.
+The `--build` option builds the Resonance Docker image from the project's Dockerfile before starting the application.
 
-After the image has been built once, the application can normally be started with:
+When the application starts, Hibernate creates the required database tables inside the Docker MySQL database.
+
+Wait until the Spring Boot application has started successfully before continuing.
+
+### Stop only the Resonance container
+
+Open a **new terminal** in the project directory and run:
+
+```powershell
+docker compose stop resonance
+```
+
+### Populate the Database
+
+Execute the SQL statements from `database/data.sql` directly against the Docker MySQL database:
+
+```powershell
+Get-Content .\database\data.sql | docker exec -i resonance-backend-mysql-1 mysql -u root -p[YOUR_PASSWORD] resonance
+```
+
+Replace `[YOUR_PASSWORD]` with the `MYSQL_ROOT_PASSWORD` value from your `.env` file.
+
+This executes `data.sql` directly inside the Docker MySQL database. No local MySQL database or database dump is required.
+
+The order is important:
+
+```text
+Docker MySQL starts
+        ↓
+Spring Boot starts
+        ↓
+Hibernate creates tables
+        ↓
+data.sql INSERT statements are executed
+        ↓
+Database is populated
+```
+
+### Restart the Application
+
+After the data has been inserted execute:
 
 ```bash
-docker compose up
+docker compose restart resonance
 ```
+
+The application will restart and work with the populated database.
 
 The application will be available at:
 
@@ -165,33 +213,47 @@ The application will be available at:
 http://localhost:8080
 ```
 
-To run the containers in the background:
+### Starting the Application After Initial Setup
+
+Once the Docker image has been built and the database has been initialized, the application can normally be started with:
 
 ```bash
-docker compose up -d
+docker compose up
 ```
-
-To stop the containers:
-
-```bash
-docker compose stop
-```
-
-To start previously stopped containers:
-
-```bash
-docker compose start
-```
-
-To stop and remove the containers:
-
-```bash
-docker compose down
-```
-
-The MySQL data is stored in a Docker named volume and is preserved when using `docker compose down`.
 
 > **Warning:** `docker compose down -v` removes the Docker volume and permanently deletes the persisted MySQL data.
+
+---
+
+## API Documentation
+
+Resonance includes Swagger UI for exploring and testing the REST API directly from a web browser.
+
+After starting the application, open:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+Swagger UI allows users to:
+
+- View all available API endpoints
+- See request and response formats
+- Provide request parameters and request bodies
+- Authenticate using JWT
+- Execute API requests directly from the browser
+
+---
+
+### Sample User Credentials
+
+The database includes sample users and artists that can be used for testing the API.
+
+**Password for all sample users and artists:**
+
+```text
+resonance123
+```
 
 ---
 
@@ -202,11 +264,25 @@ The project includes SQL scripts for development.
 ```text
 database/
 ├── truncate.sql
-└── seed.sql
+└── data.sql
 ```
 
 - `truncate.sql` clears all existing data.
-- `seed.sql` populates the database with sample users, artists, albums, genres, and songs.
+- `data.sql` populates the Docker database with sample users, artists, albums, genres, and songs.
+
+The Docker database is created as:
+
+```text
+resonance
+```
+
+The application connects to it internally using:
+
+```text
+jdbc:mysql://mysql:3306/resonance
+```
+
+No local MySQL database is required when running the project with Docker.
 
 ---
 
